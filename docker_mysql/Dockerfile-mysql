@@ -1,0 +1,9 @@
+FROM mysql:8
+
+ENV MYSQL_ROOT_PASSWORD demo_pass
+
+COPY initdb.d docker-entrypoint-initdb.d
+COPY files/mysql.cnf /etc/mysql/conf.d/51-server.cnf
+
+HEALTHCHECK --timeout=5s --retries=12 \
+    CMD mysqladmin -uroot -pdemo_pass ping | grep alive

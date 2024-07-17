@@ -1,0 +1,15 @@
+sh: start
+	docker exec -it $(NAME) bash
+
+mysql: start
+	docker exec -it $(NAME) $(BIN) -h127.0.0.1 -udemo -pdemo $(args)
+
+mysqladmin: start
+	docker exec -it $(NAME) $(ADMINBIN) -h127.0.0.1 -uroot -pdemo_pass $(args)
+
+resetdb: start
+	docker exec -it $(NAME) $(BIN) -h127.0.0.1 -uroot -pdemo_pass -e "\
+			DROP DATABASE sample3_laravel; CREATE DATABASE sample3_laravel; \
+			DROP DATABASE sample3_laravel_test; CREATE DATABASE sample3_laravel_test;"
+
+.PHONY: sh mysql mysqladmin resetdb

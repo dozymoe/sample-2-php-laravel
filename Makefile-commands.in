@@ -1,0 +1,22 @@
+artisan:
+	$(MAKE) $(MAKEARGS) -C docker_mysql start args=""
+	$(MAKE) $(MAKEARGS) -C docker_php_node build
+	docker run -it --rm --network=$(NETWORK) \
+		-v $(shell pwd):/var/www/work \
+		php-node.demo php artisan $(args)
+
+composer:
+	$(MAKE) $(MAKEARGS) -C docker_mysql start args=""
+	$(MAKE) $(MAKEARGS) -C docker_php_node build
+	docker run -it --rm --network=$(NETWORK) \
+		-v $(shell pwd):/var/www/work \
+		php-node.demo composer $(args)
+
+sh:
+	$(MAKE) $(MAKEARGS) -C docker_mysql start args=""
+	$(MAKE) $(MAKEARGS) -C docker_php_node build
+	docker run -it --rm --network=$(NETWORK) \
+		-v $(shell pwd):/var/www/work \
+		php-node.demo bash
+
+.PHONY: artisan composer sh
