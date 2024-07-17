@@ -11,7 +11,7 @@ composer install || exit 2
 
 ./vendor/bin/duster -v lint || exit 3
 ./vendor/bin/phpstan analyse -l1 ./app/ || exit 4
-php artisan l5-swagger:generate || exit 5
+#php artisan l5-swagger:generate || exit 5
 
 npm install || exit 6
 if [ -x ./node_modules/vite/bin/vite.js ]
