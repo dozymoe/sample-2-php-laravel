@@ -11,6 +11,9 @@ run: tmp/.network
 		-p 8080:8000 \
 		--name=$(NAME) php-node.demo
 
+docs:
+	$(MAKE) $(MAKEARGS) -C docker_plantuml
+
 mysql: tmp/.network
 	$(MAKE) $(MAKEARGS) -C docker_mysql $(cmd) $(args)
 
@@ -33,5 +36,5 @@ purge:
 
 include Makefile-commands.in
 
-.PHONY: mysql
+.PHONY: docs mysql
 .PHONY: run stop purge

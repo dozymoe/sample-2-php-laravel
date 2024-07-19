@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
+
 return [
 
     /*
@@ -14,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'description' => env('APP_DESC', 'Laravel Website'),
 
     /*
     |--------------------------------------------------------------------------
@@ -66,6 +69,7 @@ return [
     */
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'usertz' => env('USER_TIMEZONE', 'UTF'),
 
     /*
     |--------------------------------------------------------------------------
@@ -123,4 +127,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'aliases' => array_merge(Facade::defaultAliases()->toArray(), [
+        'MyDate' => 'App\Helpers\MyDateHelper',
+    ]),
 ];

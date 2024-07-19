@@ -12,6 +12,13 @@ composer:
 		-v $(shell pwd):/var/www/work \
 		php-node.demo composer $(args)
 
+test:
+	$(MAKE) $(MAKEARGS) -C docker_mysql start args=""
+	$(MAKE) $(MAKEARGS) -C docker_php_node build
+	docker run -it --rm --network=$(NETWORK) \
+		-v $(shell pwd):/var/www/work \
+		php-node.demo /docker-init-test.sh
+
 npm:
 	$(MAKE) $(MAKEARGS) -C docker_mysql start args=""
 	$(MAKE) $(MAKEARGS) -C docker_php_node build
@@ -26,4 +33,4 @@ sh:
 		-v $(shell pwd):/var/www/work \
 		php-node.demo bash
 
-.PHONY: artisan composer sh
+.PHONY: artisan composer test npm sh

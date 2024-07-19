@@ -26,6 +26,7 @@ RUN apt-get autoclean -y && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/pear/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY files/boot.sh /docker-init.sh
+COPY files/boot-test.sh /docker-init-test.sh
 
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN sed -i '/max_execution_time/s/30/300/' "$PHP_INI_DIR/php.ini"

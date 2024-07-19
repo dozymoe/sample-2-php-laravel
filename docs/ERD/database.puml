@@ -1,0 +1,106 @@
+@startuml
+
+title Entity Relationship Diagram for database sample3_laravel
+
+entity "users" as User {
+    * id : bigint <<generated>>
+    --
+    * name : varchar(255)
+    * email : varchar(255)
+    email_verified_at : datetime
+    * password : varchar(255)
+    two_factor_secret : text
+    two_factor_recovery_codes : text
+    two_factor_confirmed_at : datetime
+    remember_token : varchar(100)
+    --
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity "products" as Product {
+    * id : bigint <<generated>>
+    --
+    * code : varchar(100)
+    * name : varchar(250)
+    description : text
+    stock : int
+    price : decimal(11, 2)
+    image_path : varchar(250)
+    image_alt : text
+    image_mimetype : varchar(100)
+    --
+    * created_by : bigint
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity "product_categories" as ProductCategory {
+    * id : bigint <<generated>>
+    --
+    * code : varchar(100)
+    * name : varchar(250)
+    description : text
+    --
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity "model_has_permissions" as ModelHasPermission {
+    * permission_id : bigint
+    * model_type : varchar(255)
+    * model_id : bigint
+}
+
+entity "model_has_roles" as ModelHasRole {
+    * role_id : bigint
+    * model_type : varchar(255)
+    * model_id : bigint
+}
+
+entity "permissions" as Permission {
+    * id : bigint <<generated>>
+    --
+    * name : varchar(166)
+    * guard_name : varchar(25)
+    --
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity "role_has_permissions" as RoleHasPermission {
+    * permission_id : bigint
+    * role_id : bigint
+}
+
+entity "roles" as Role {
+    * id : bigint <<generated>>
+    --
+    * name : varchar(166)
+    * guard_name : varchar(25)
+    --
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity "pivot_products_categories" as PivotProductCategory {
+    * product_id : bigint
+    * category_id : bigint
+}
+
+Product }o--o{ ProductCategory
+PivotProductCategory }o--|| Product
+PivotProductCategory }o--|| ProductCategory
+Product }o--|{ User
+Role }o--o{ Permission
+RoleHasPermission }o--|| Role
+RoleHasPermission }o--|| Permission
+User }o--o{ Role
+User }o--o{ Permission
+ModelHasRole }o--|| User
+ModelHasRole }o--|| Role
+ModelHasPermission }o--|| User
+ModelHasPermission }o--|| Permission
+
+
+@enduml
