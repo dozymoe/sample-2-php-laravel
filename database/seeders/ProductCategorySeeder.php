@@ -18,23 +18,16 @@ class ProductCategorySeeder extends Seeder
         DB::table('product_categories')->upsert(
             [
                 [
-                    'code' => 'kasur',
-                    'name' => 'Kasur',
-                    'description' => 'Furnitur - kasur',
+                    'code' => 'consumption',
+                    'name' => 'Konsumsi',
+                    'description' => 'Persediaan konsumsi',
                     'created_at' => $now,
                     'updated_at' => $now,
                 ],
                 [
-                    'code' => 'kursi',
-                    'name' => 'Kursi',
-                    'description' => 'Furnitur - kursi',
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ],
-                [
-                    'code' => 'guling',
-                    'name' => 'Guling',
-                    'description' => 'Kamar tidur - guling',
+                    'code' => 'cleaner',
+                    'name' => 'Pembersih',
+                    'description' => 'Persediaan pembersih',
                     'created_at' => $now,
                     'updated_at' => $now,
                 ],

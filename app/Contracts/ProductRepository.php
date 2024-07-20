@@ -7,7 +7,9 @@ use App\Models\ProductCategory;
 
 interface ProductRepository
 {
-    public function findAll(array $filterBy);
+    public function findAll(array $query);
+
+    public function findById(int $id);
 
     public function create(array $values);
 

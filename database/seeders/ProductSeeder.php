@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -20,56 +19,95 @@ class ProductSeeder extends Seeder
             ['seller@demo.com']);
 
         // Product categories
-        $catKasurId = DB::scalar('select id from product_categories where code=?',
-            ['kasur']);
-        $catKursiId = DB::scalar('select id from product_categories where code=?',
-            ['kursi']);
-        $catGulingId = DB::scalar('select id from product_categories where code=?',
-            ['guling']);
+        $catConsumptionId = DB::scalar(
+            'select id from product_categories where code=?',
+            ['consumption']);
+        $catCleanerId = DB::scalar('select id from product_categories where code=?',
+            ['cleaner']);
 
         // Image files
         $fs = new Filesystem;
-        $imagePaths = [];
-        Storage::put('public/kasur.jpg',
-            $fs->get(dirname(__FILE__) . '/files/kasur.jpg'));
-        $imagePaths[] = 'public/kasur.jpg';
-        Storage::put('public/kursi.jpg',
-            $fs->get(dirname(__FILE__) . '/files/kursi.jpg'));
-        $imagePaths[] = 'public/kursi.jpg';
-        Storage::put('public/guling.jpg',
-            $fs->get(dirname(__FILE__) . '/files/guling.jpg'));
-        $imagePaths[] = 'public/guling.jpg';
+        foreach (['kopi', 'pasta_gigi', 'sabun_mandi', 'sampo', 'teh'] as $pic) {
+            Storage::put('public/' . $pic . '.jpg',
+                $fs->get(dirname(__FILE__) . '/files/' . $pic . '.jpg'));
+        }
 
-        $products = [];
-        for ($ii = 1; $ii < 100; $ii++) {
-            $newItem = [
-                'code' => "product_{$ii}",
-                'name' => implode(' ', fake()->words()),
-                'description' => fake()->text(),
+        $products = [
+            [
+                'code' => 'coffee',
+                'name' => 'Kopi',
+                'description' => 'Kopi',
                 'stock' => fake()->randomNumber(5),
                 'price' => fake()->randomFloat(2, 1, 99999),
-                'image_path' => fake()->randomElement($imagePaths),
+                'image_path' => 'public/kopi.jpg',
                 'image_alt' => fake()->text(),
                 'image_mimetype' => 'image/jpeg',
                 'created_by' => $userSellerId,
                 'created_at' => fake()->dateTime(),
                 'updated_at' => fake()->dateTime(),
-            ];
-
-            $products[] = $newItem;
-        }
-
+            ],
+            [
+                'code' => 'tea',
+                'name' => 'Teh',
+                'description' => 'Teh',
+                'stock' => fake()->randomNumber(5),
+                'price' => fake()->randomFloat(2, 1, 99999),
+                'image_path' => 'public/teh.jpg',
+                'image_alt' => fake()->text(),
+                'image_mimetype' => 'image/jpeg',
+                'created_by' => $userSellerId,
+                'created_at' => fake()->dateTime(),
+                'updated_at' => fake()->dateTime(),
+            ],
+            [
+                'code' => 'toothpaste',
+                'name' => 'Pasta gigi',
+                'description' => 'Pasta gigi',
+                'stock' => fake()->randomNumber(5),
+                'price' => fake()->randomFloat(2, 1, 99999),
+                'image_path' => 'public/pasta_gigi.jpg',
+                'image_alt' => fake()->text(),
+                'image_mimetype' => 'image/jpeg',
+                'created_by' => $userSellerId,
+                'created_at' => fake()->dateTime(),
+                'updated_at' => fake()->dateTime(),
+            ],
+            [
+                'code' => 'soap',
+                'name' => 'Sabun mandi',
+                'description' => 'Sabun mandi',
+                'stock' => fake()->randomNumber(5),
+                'price' => fake()->randomFloat(2, 1, 99999),
+                'image_path' => 'public/sabun_mandi.jpg',
+                'image_alt' => fake()->text(),
+                'image_mimetype' => 'image/jpeg',
+                'created_by' => $userSellerId,
+                'created_at' => fake()->dateTime(),
+                'updated_at' => fake()->dateTime(),
+            ],
+            [
+                'code' => 'shampoo',
+                'name' => 'Sampo',
+                'description' => 'Sampo',
+                'stock' => fake()->randomNumber(5),
+                'price' => fake()->randomFloat(2, 1, 99999),
+                'image_path' => 'public/sampo.jpg',
+                'image_alt' => fake()->text(),
+                'image_mimetype' => 'image/jpeg',
+                'created_by' => $userSellerId,
+                'created_at' => fake()->dateTime(),
+                'updated_at' => fake()->dateTime(),
+            ],
+        ];
         DB::table('products')->upsert($products, 'code');
 
         $productCategories = [];
         foreach (DB::select('select * from products') as $product) {
             $row = ['product_id' => $product->id];
-            if (Str::contains($product->image_path, 'kasur')) {
-                $row['category_id'] = $catKasurId;
-            } elseif (Str::contains($product->image_path, 'kursi')) {
-                $row['category_id'] = $catKursiId;
-            } elseif (Str::contains($product->image_path, 'guling')) {
-                $row['category_id'] = $catGulingId;
+            if (in_array($product->code, ['coffee', 'tea'])) {
+                $row['category_id'] = $catConsumptionId;
+            } elseif (in_array($product->code, ['toothpaste', 'soap', 'shampoo'])) {
+                $row['category_id'] = $catCleanerId;
             }
 
             $productCategories[] = $row;

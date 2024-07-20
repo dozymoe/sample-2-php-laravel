@@ -8,6 +8,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        @can('viewAny', 'App\Models\Sale')
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('dashboard.purchase') }}">
+            Purchase History
+          </a>
+        </li>
+        @endcan
+
+        @can('review', 'App\Models\Sale')
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('dashboard.sale') }}">
+            Sales
+          </a>
+        </li>
+        @endcan
+
         @if (Auth::check())
         <li class="nav-item">
           <a class="nav-link" href="{{ route('logout') }}">Logout</a>

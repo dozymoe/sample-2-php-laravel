@@ -30,7 +30,7 @@ class AdminProductController extends Controller
             'product.edit',
             [
                 'object' => new Product,
-                'categories' => $this->categories->findAll(),
+                'categories' => $this->categories->findAll([]),
             ]
         );
     }
@@ -57,7 +57,7 @@ class AdminProductController extends Controller
             'product.edit',
             [
                 'object' => $object,
-                'categories' => $this->categories->findAll(),
+                'categories' => $this->categories->findAll([]),
             ]
         );
     }

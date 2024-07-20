@@ -6,7 +6,7 @@ use App\Models\ProductCategory;
 
 interface ProductCategoryRepository
 {
-    public function findAll();
+    public function findAll(array $query);
 
     public function findById(int $id);
 

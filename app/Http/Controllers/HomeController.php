@@ -29,7 +29,7 @@ class HomeController extends Controller
             'welcome',
             [
                 'products' => $products,
-                'categories' => $this->categories->findAll(),
+                'categories' => $this->categories->findAll([]),
             ]
         );
     }

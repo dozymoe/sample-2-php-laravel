@@ -21,3 +21,10 @@ Daftar user yang bisa dipakai untuk login
 * user@demo.com
 
 Password-nya semua adalah 'pass'.
+
+
+User Interface
+--------------
+
+* ada page "Purchase History" jika login sebagai user@demo.com
+* ada page "Sales" jika login sebagai seller@demo.com

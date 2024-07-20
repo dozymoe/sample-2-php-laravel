@@ -15,6 +15,12 @@ Route::post('logout', C\AuthController::class . '@doLogout');
 
 Route::middleware(['auth'])->group(function () {
 
+    // Dashboard
+    Route::get('purchase', C\DashboardSaleController::class . '@buyerIndex')
+        ->name('dashboard.purchase');
+    Route::get('sale', C\DashboardSaleController::class . '@sellerIndex')
+        ->name('dashboard.sale');
+
     // CRUD for Products
     Route::prefix('admin/products')->group(function () {
         Route::get('add', C\AdminProductController::class . '@createForm')

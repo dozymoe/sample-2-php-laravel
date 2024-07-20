@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Contracts\ProductCategoryRepository;
-use App\Models\ProductCategory;
+use App\Contracts\UserRepository;
+use App\Models\User;
 
-class ProductCategoryRepositoryEloquent implements ProductCategoryRepository
+class UserRepositoryEloquent implements UserRepository
 {
     public function findAll(array $query)
     {
-        $sql = ProductCategory::query();
+        $sql = User::query();
 
         return $sql->orderBy('name')->get();
     }
 
     public function findById(int $id)
     {
-        $query = ProductCategory::query();
+        $query = User::query();
 
         return $query->where('id', $id)->first();
     }
 
     public function create(array $values)
     {
-        return ProductCategory::create($values);
+        return User::create($values);
     }
 
-    public function update(ProductCategory $object)
+    public function update(User $object)
     {
         $object->save();
 
         return $object;
     }
 
-    public function destroy(ProductCategory $object)
+    public function destroy(User $object)
     {
         $object->forceDelete();
     }

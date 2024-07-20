@@ -30,7 +30,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('edit products');
+        return $user->hasPermissionTo('create products');
     }
 
     /**

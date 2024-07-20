@@ -8,6 +8,6 @@ class MyDateHelper
 {
     public static function format(Carbon $date): string
     {
-        return $date->setTimezone(config('app.usertz'))->format('Y-m-d H:i:s');
+        return $date->setTimezone(config('app.usertz'))->format('d-m-Y');
     }
 }

@@ -9,29 +9,36 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepositoryEloquent implements ProductRepository
 {
-    public function findAll(array $filterBy)
+    public function findAll(array $query)
     {
-        $query = Product::query();
+        $sql = Product::query();
 
-        if (! empty($filterBy['search'])) {
-            $query->where('name', 'like', $filterBy['search'] . '%');
+        if (! empty($query['search'])) {
+            $sql->where('name', 'like', $query['search'] . '%');
         }
 
-        if (! empty($filterBy['category'])) {
-            $categoryCode = $filterBy['category'];
-            $query->whereHas('categories', function ($q) use ($categoryCode) {
+        if (! empty($query['category'])) {
+            $categoryCode = $query['category'];
+            $sql->whereHas('categories', function ($q) use ($categoryCode) {
                 $q->where('code', $categoryCode);
             });
         }
 
-        if (! empty($filterBy['min_price'])) {
-            $query->where('price', '>=', $filterBy['min_price']);
+        if (! empty($query['min_price'])) {
+            $sql->where('price', '>=', $query['min_price']);
         }
-        if (! empty($filterBy['max_price'])) {
-            $query->where('price', '<=', $filterBy['max_price']);
+        if (! empty($query['max_price'])) {
+            $sql->where('price', '<=', $query['max_price']);
         }
 
-        return $query->orderBy('name')->get();
+        return $sql->orderBy('name')->get();
+    }
+
+    public function findById(int $id)
+    {
+        $query = Product::query();
+
+        return $query->where('id', $id)->first();
     }
 
     public function create(array $values)

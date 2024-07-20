@@ -17,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
             R\ProductRepositoryEloquent::class);
         $this->app->bind(C\ProductCategoryRepository::class,
             R\ProductCategoryRepositoryEloquent::class);
+        $this->app->bind(C\SaleRepository::class, R\SaleRepositoryEloquent::class);
+        $this->app->bind(C\UserRepository::class, R\UserRepositoryEloquent::class);
     }
 
     /**

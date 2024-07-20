@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class UpdateSaleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +23,19 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'max:100|unique:products,code,' . $this->route('object')->id,
-            'name' => 'max:250',
-            'stock' => 'integer|min:0',
-            'price' => 'decimal:0,2|min:0',
-            'description' => 'nullable',
+            'quantity' => 'nullable|int|min:1',
+            'product_id' => 'nullable|exists:products,id',
+            'product_category_id' => 'nullable|exists:product_categories,id',
+            'buyer_id' => 'nullable|exists:users,id',
+            'seller_id' => 'nullable|exists:users,id',
+            'product_name' => 'nullable|max:250',
+            'product_stock' => 'nullable|int|min:0',
+            'product_price' => 'nullable|decimal:0,2|min:0',
+            'category_name' => 'nullable|max:250',
+            'buyer_name' => 'nullable|max:255',
+            'seller_name' => 'nullable|max:255',
             'created_at' => 'date',
             'updated_at' => 'date',
-            'image_path' => 'nullable|max:250',
-            'image_alt' => 'nullable',
-            'image_mimetype' => 'nullable|max:100',
-            'category_id' => 'nullable|integer|exists:product_categories,id',
         ];
     }
 
@@ -44,13 +46,5 @@ class UpdateProductRequest extends FormRequest
         $this->mergeIfMissing([
             'updated_at' => $now,
         ]);
-
-        if (! empty($this->file('image'))) {
-            $path = $this->file('image')->store('public');
-            $this->mergeIfMissing([
-                'image_path' => $path,
-                'image_mimetype' => $this->file('image')->getClientMimeType(),
-            ]);
-        }
     }
 }
